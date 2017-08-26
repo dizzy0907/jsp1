@@ -7,39 +7,39 @@
 <title>회원가입</title>
 </head>
 <body>
-<form action = "signin.user" method = "post">
-<table border ="1">
+<form action="sigin.user" method="post">
+<table border="1">
 	<tr>
-		<td colspan="2">회원가입</td>
+		<td colspan="2" align="center">회원가입</td>
 	</tr>
 	<tr>
-		<td>ID</td>
-		<td><input type = "text" name = "id" id = "id"></td>	
+		<td>아이디</td>
+		<td><input type="text" name="id" id="id"></td>
 	</tr>
 	<tr>
 		<td>비밀번호</td>
-		<td><input type = "password" name = "pwd" id = "pwd"></td>
+		<td><input type="password" name="pwd" id="pwd"></td>
 	</tr>
 	<tr>
 		<td>이름</td>
-		<td><input type = "text" name = "name" id = "name"></td>
+		<td><input type="text" name="name" id="name"></td>
 	</tr>
 	<tr>
 		<td>취미</td>
 		<td>
-		<input type = "checkbox" name = "hobby" value = "수면">수면
-		<input type = "checkbox" name = "hobby" value = "야구">야구
-		<input type = "checkbox" name = "hobby" value = "운동">운동
-		<input type = "checkbox" name = "hobby" value = "먹기">먹기
-		</td>			
-	</tr>
-	<tr>
-		<td colspan = "2" align = "center">
-		<input type = "submit" value = "회원가입">
+			수면<input type="checkbox" name="hobby" value="수면">
+			음악<input type="checkbox" name="hobby" value="음악">
+			영화<input type="checkbox" name="hobby" value="영화">
+			게임<input type="checkbox" name="hobby" value="게임">
+			요리<input type="checkbox" name="hobby" value="요리">
+			여행<input type="checkbox" name="hobby" value="여행">
 		</td>
 	</tr>
+	<tr>
+		<td colspan="2" align="center"><input type="submit" value="회원가입"></td>
+	</tr>
 </table>
-
+<input type="hidden" name="command" value="signin">
 </form>
 </body>
 </html>

@@ -12,10 +12,10 @@ public class DBConTest {
 		Statement st;
 		try {
 			con = DBConnector.getCon();
-			System.out.println("ì—°ê²°ì„±ê³µ");
+			System.out.println("¿¬°áµÇ¾ú½À´Ï´Ù");
 			st = con.createStatement();
 			ResultSet rs = st.executeQuery("select * from user");
-			/*Set valueê°€ ì¤‘ë³µë˜ëŠ”ê±¸ ë°©ì§€ í•œë‹¤*/
+			
 			while(rs.next()) {
 				System.out.println(rs.getString("user_no"));
 				System.out.println(rs.getString("id"));

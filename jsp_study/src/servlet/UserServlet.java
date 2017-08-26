@@ -2,68 +2,89 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import common.DBConnector;
+import service.UserService;
+import service.implement.UserServiceImpl;
 
-public class UserServlet extends HttpServlet{
-	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setCharacterEncoding("UTF-8");
-		String id = req.getParameter("id");
-		String pwd = req.getParameter("pwd");
-		String name = req.getParameter("name");
-		String[] hobbies = req.getParameterValues("hobby");
-		String hobby = "";
-		for(String h:hobbies) {
-			hobby += h +",";
-		}
-		hobby = hobby.substring(0,hobby.length()-1);
-		
-		Connection con;
-		String sql = "";
-		String result = name +"ÌöåÏõêÍ∞ÄÏûÖ Ïã§Ìå®";
-		try {
-			con = DBConnector.getCon();
-			sql = "insert into user(id,pwd,name,hobby)";
-			sql += " values(?,?,?,?)";
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setString(1, id);
-			ps.setString(2, pwd);
-			ps.setString(3, name);
-			ps.setString(4, hobby);
-			int row = ps.executeUpdate();
-			if(row == 1) {
-				result = name + "ÌöåÏõêÍ∞ÄÏûÖ ÏÑ±Í≥µ";
+public class UserServlet extends CommonServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private UserService us = new UserServiceImpl();
+	
+	public void doPost(HttpServletRequest request, HttpServletResponse resp)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		String command = request.getParameter("command");
+		if(command==null) {
+			doProcess(resp, "¿ﬂ∏¯µ» ø‰√ª¿‘¥œ¥Ÿ.");
+		}else {
+			if(command.equals("signin")) {
+				String id = request.getParameter("id");
+				String pwd = request.getParameter("pwd");
+				String name = request.getParameter("name");
+				String[] hobbies = request.getParameterValues("hobby");
+				String hobby ="";
+				for(String h : hobbies) {
+					hobby += h + ",";
+				}
+				hobby = hobby.substring(0, hobby.length()-1);
+				Map<String, String> hm = new HashMap<String, String>();
+				hm.put("id", id);
+				hm.put("pwd", pwd);
+				hm.put("name", name);
+				hm.put("hobby", hobby);
+				String result = us.insertUser(hm);
+				doProcess(resp, result);
+			}else if(command.equals("login")) {
+				String id = request.getParameter("id");
+				String pwd = request.getParameter("pwd");
+				Map<String, String> hm = new HashMap<String, String>();
+				hm.put("id", id);
+				hm.put("pwd", pwd);
+				Map<String, String> resultMap = us.selectUser(hm);
+				if(resultMap.get("id")!=null) {
+					HttpSession session = request.getSession();
+					session.setAttribute("user", resultMap);
+				}
+				doProcess(resp, resultMap.get("result"));
+			}else if(command.equals("logout")) {
+				HttpSession session = request.getSession();
+				session.invalidate();
+				resp.sendRedirect("/login.jsp");
+			}else if(command.equals("delete")) {
+				String userNo = request.getParameter("userNo");
+				Map<String, String> hm = new HashMap<String, String>();
+				hm.put("user_no", userNo);
+				int rCnt = us.deleteUser(hm);
+				String result ="»∏ø¯≈ª≈ø° Ω«∆–«œºÃΩ¿¥œ¥Ÿ.";
+				if(rCnt==1) {
+					result = "»∏ø¯≈ª≈ø° º∫∞¯«œºÃΩ¿¥œ¥Ÿ.";
+					result += "<script>";
+					result += "alert('»∏ø¯≈ª≈ø° º∫∞¯«œºÃΩ¿¥œ¥Ÿ.');";
+					result += "</script>";
+				}
+				doProcess(resp, result);
 			}
-		}catch(Exception e){
-			e.printStackTrace();
 		}
-		doProcess(resp, result); 
 	}
-	
-	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Map<String, String[]> m = req.getParameterMap();
-		Iterator<String> it = m.keySet().iterator();
-		String str = "ÎëêÍ≤üÎëêÍ≤ü!!!!" ;		
-		while(it.hasNext()) {
-			String key = it.next();
-			str += key +":"+req.getParameter(key);
-		}
-		doProcess(resp, str);
-		}
-	
-	public void doProcess(HttpServletResponse resp, String writeStr) throws IOException {
-		resp.setContentType("text/html; charset = UTF-8");
+
+	public void doGet(HttpServletRequest request, HttpServletResponse resp)
+			throws ServletException, IOException {
+
+	}	
+	public void doProcess(HttpServletResponse resp, String writeStr) 
+			throws IOException {
+		resp.setContentType("text/html;charset=utf-8");
 		PrintWriter out = resp.getWriter();
-	    out.println(writeStr);
+		out.print(writeStr);
 	}
-	
 }

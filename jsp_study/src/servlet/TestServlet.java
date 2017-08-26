@@ -12,13 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 
 public class TestServlet extends HttpServlet{
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-			System.out.println("ë‘í˜¸ìŠ¤íŠ¸ë‘í˜¸ìŠ¤íŠ¸~~~~" + req.getParameterMap());
+			System.out.println("µÎÆ÷½ºÆ®~~~~~" + req.getParameterMap());
 			PrintWriter out = resp.getWriter();
 	    }
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Map<String, String[]> m = req.getParameterMap();
 		Iterator<String> it = m.keySet().iterator();
-		String str = "ë‘ê²Ÿë‘ê²Ÿ!!!!" ;		
+		String str = "µÎ°Ù!!!!" ;		
 		while(it.hasNext()) {
 			String key = it.next();
 			str += key +":"+req.getParameter(key);

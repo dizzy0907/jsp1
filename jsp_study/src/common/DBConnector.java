@@ -10,7 +10,7 @@ public class DBConnector {
 	
 	public static Connection getCon() throws ClassNotFoundException, SQLException{
 		if(con == null) {
-			String dbUrl = "jdbc:mysql://localhost:3306/jsp_study";
+			String dbUrl = "jdbc:mysql://localhost:3306/user";
 			String dbId ="root";
 			String dbPwd ="jspstudy";
 			Class.forName("org.mariadb.jdbc.Driver");
