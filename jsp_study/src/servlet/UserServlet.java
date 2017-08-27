@@ -2,7 +2,9 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -51,15 +53,20 @@ public class UserServlet extends CommonServlet {
 				hm.put("id", id);
 				hm.put("pwd", pwd);
 				Map<String, String> resultMap = us.selectUser(hm);
+				String url = "location.href = '/user/login.jsp'";
 				if(resultMap.get("id")!=null) {
 					HttpSession session = request.getSession();
 					session.setAttribute("user", resultMap);
 				}
-				doProcess(resp, resultMap.get("result"));
+				String result = "<script>";
+				result += "alert('"+ resultMap.get("result")+"');";
+				result += url;
+				result += "</script>";
+				doProcess(resp, result);
 			}else if(command.equals("logout")) {
 				HttpSession session = request.getSession();
 				session.invalidate();
-				resp.sendRedirect("/login.jsp");
+				resp.sendRedirect("/user/login.jsp");
 			}else if(command.equals("delete")) {
 				String userNo = request.getParameter("userNo");
 				Map<String, String> hm = new HashMap<String, String>();
@@ -72,6 +79,42 @@ public class UserServlet extends CommonServlet {
 					result += "alert('회원탈퇴에 성공하셨습니다.');";
 					result += "</script>";
 				}
+				doProcess(resp, result);
+			}else if(command.equals("update")) {
+				String id = request.getParameter("id");
+				String pwd = request.getParameter("pwd");
+				String name = request.getParameter("name");
+				String[] hobbies = request.getParameterValues("hobby");
+				String hobby ="";
+				for(String h : hobbies) {
+					hobby += h + ",";
+				}
+				hobby = hobby.substring(0, hobby.length()-1);
+				String userNo = request.getParameter("userNo");				
+				Map<String, String> hm = new HashMap<String, String>();
+				hm.put("id", id);
+				hm.put("pwd", pwd);
+				hm.put("name", name);
+				hm.put("hobby", hobby);
+				hm.put("user_no", userNo);
+				int rCnt = us.updateUser(hm);
+				String result ="회원정보 수정에 실패하셨습니다.";				
+				if(rCnt==1) {
+					result = "회원정보 수정에 성공하셨습니다.";
+				}
+				doProcess(resp, result);
+			}else if(command.equals("list")) {
+				Map<String, String> hm = new HashMap<String, String>();
+				List<Map<String, String>> userList = us.selectUserList(hm);
+				String result ="<table border = '1'";
+				for(Map<String, String> m : userList) {
+					result += "<tr>";
+					result += "<td>" + m.get("name")+"</td>";
+					result += "<td>" + m.get("name")+"</td>";
+					result += "<td>" + m.get("name")+"</td>";
+					result += "</tr>";
+				}
+				result += "</table>";
 				doProcess(resp, result);
 			}
 		}

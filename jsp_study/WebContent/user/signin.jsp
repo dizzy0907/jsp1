@@ -27,12 +27,10 @@
 	<tr>
 		<td>취미</td>
 		<td>
-			수면<input type="checkbox" name="hobby" value="수면">
-			음악<input type="checkbox" name="hobby" value="음악">
-			영화<input type="checkbox" name="hobby" value="영화">
-			게임<input type="checkbox" name="hobby" value="게임">
-			요리<input type="checkbox" name="hobby" value="요리">
-			여행<input type="checkbox" name="hobby" value="여행">
+			잠<input type="checkbox" name="hobby" value="잠">
+			먹기<input type="checkbox" name="hobby" value="먹기">
+			운동<input type="checkbox" name="hobby" value="운동">
+			수영<input type="checkbox" name="hobby" value="수영">
 		</td>
 	</tr>
 	<tr>
