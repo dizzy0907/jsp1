@@ -9,6 +9,8 @@ public interface UserService {
 	public String insertUser(Map<String, String>hm);
 	//정보 검색
 	public Map<String, String> selectUser(Map<String, String>hm);
+	//정보 검색
+	public Map<String, String> loginUser(Map<String, String>hm);
 	//삭제
 	public int deleteUser(Map<String, String>hm);
 	//수정

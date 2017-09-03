@@ -4,18 +4,16 @@
 </head>
 <script>
 $(document).ready(function(){
-	$("input[type = 'button']").click	(function(){
+	$("input[type='button']").click(function(){
 		var value = this.value;
-		if(value == "회원탈퇴"){
-			$("#command").val("delete");
-		}else if(value == "회원정보수정"){
-			location.href = "/user/update.jsp"
-			return;
-		}else if(value == "회원리스트"){
-			location.href = "/user/list.jsp"
-			return;
+		var url = this.getAttribute("data-url");
+		var urls = url.split(".");
+		if(urls[1].indexOf("jsp")!=-1){
+			location.href = url;
+		}else{
+			$("#command").val(urls[0]);
+			this.form.submit();
 		}
-		this.form.submit();
 	})
 })
 </script>
@@ -31,11 +29,12 @@ result += name + "님의 아이디는 " + id + "이며,<br> 취미는 " + hobby 
 out.println(result);
 %>
 <form action="some.user" method="post">
-<input type="button" value="로그아웃">
-<input type="button" value="회원탈퇴">
-<input type="button" value="회원정보수정">
-<input type="button" value="회원리스트">
-<input type="hidden" name="command"id="command" value="logout">
+<input type="button" value="로그아웃" data-url="logout.user"> 
+<input type="button" value="회원탈퇴" data-url="delete.user"> 
+<input type="button" value="회원정보수정" data-url="/user/update.jsp?user_no=<%=userNo%>"> 
+<input type="button" value="회원리스트" data-url="/user/list.jsp"> 
+<input type="button" value="게시판 가기" data-url="/board/board_list.jsp"> 
+<input type="hidden" name="command" id="command" value="logout"> 
 <input type="hidden" name="userNo" value="<%=userNo%>">
 <%
 }
