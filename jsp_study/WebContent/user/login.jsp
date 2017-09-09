@@ -46,7 +46,7 @@ $(document).ready(function(){
 		
 		param = "?command=login&param=" + JSON.stringify(param);
 		param = encodeURI(param);
-		var au = new AjaxUtil("test.user",param,"get",false);
+		var au = new AjaxUtil("test.user",param,"get",false);  // true: 비동기,  false: 동기
 		au.changeCallBack(callback);
 		au.send();
 	});
