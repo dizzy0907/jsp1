@@ -3,7 +3,9 @@ package servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -31,7 +33,12 @@ public class BoardServlet extends CommonServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		String command = request.getParameter("command");
-		if(command.equals("list")) {
+		
+		if(command == null) {			
+		 Map<String, String> pMap = g.fromJson(request.getReader(), HashMap.class);
+		 command = pMap.get("command");
+		}
+		if(command.equals("list")) {				
 			//borad_list
 			/*RequestDispatcher rd = request.getRequestDispatcher("/board/board_list.jsp");
 			List<Board> boardList = bs.selectBoardList();
