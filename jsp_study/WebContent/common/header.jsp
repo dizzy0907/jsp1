@@ -9,8 +9,6 @@
 <script src="/js/jquery-3.2.1.min.js"></script>
 <script src="/js/AjaxUtil.js"></script>
 <script src="/js/JqAjax.js"></script>
-
-<script src="/js/jquery-3.2.1.js"></script>
 <script src="/ui/common.js"></script>
 <script src="/ui/btsp3.7.7/js/bootstrap.min.js"></script>
 <script src="/ui/btsp3.7.7/js/bootstrap-table.js"></script>

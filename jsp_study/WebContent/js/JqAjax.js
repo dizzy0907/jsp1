@@ -18,7 +18,7 @@ var JqAjax = function(p_url,p_param,p_type,p_d_type){
 
  	    	    ,   beforeSend: function(xhr) {
 
- 	    	        xhr.setRequestHeader("Content-Type", "application/json");
+ 	    	        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
 
  	    	    }
 

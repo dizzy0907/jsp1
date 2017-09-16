@@ -1,19 +1,14 @@
 package service.implement;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import common.DBConnector;
 import dao.BoardDAO;
 import dto.Board;
+import dto.Page;
 import service.BoardService;
 
 public class BoardServiceImpl implements BoardService{
@@ -21,20 +16,28 @@ public class BoardServiceImpl implements BoardService{
 	private BoardDAO bDAO = new BoardDAO();
 	
 	@Override
-	public List<Board> selectBoardList() {
+	public List<Board> selectBoardList(Map<String,String> pHm, Page p) {
 			Connection con;
 			List<Board> boardList = null;
 			try {
 				con = DBConnector.getCon();
-				boardList = bDAO.selectBoardList(con);				
+				int totalCnt = bDAO.selectBoardCount(con, pHm, p);
+				p.setTotalCnt(totalCnt);
+				boardList = bDAO.selectBoardList(con,pHm,p);				
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			} catch (SQLException e) {
 				e.printStackTrace();
+			}finally {
+				try {
+					DBConnector.closeCon();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			return boardList;
 		}
-
 
 	@Override
 	public Map<String, String> selectBoard() {

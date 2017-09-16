@@ -6,7 +6,15 @@ public class Board {
 	private String content;
 	private String regDate;
 	private int writer;	
+	private String userName;
 	
+	
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 	public int getbNum() {
 		return bNum;
 	}
